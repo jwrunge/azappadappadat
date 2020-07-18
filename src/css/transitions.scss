@@ -1,0 +1,50 @@
+.invisible {
+    display: none;
+}
+
+.invisible-with-space {
+    visibility: hidden;
+}
+
+@media screen and (min-width: 800px) {
+    .disappearX, .disappearY {
+        transition: opacity .5s ease-in-out, transform .5s ease-in-out;
+        opacity: 1;
+    }
+
+    .fade, .angle {
+        opacity: 1;
+        transition: opacity .5s ease-in-out;
+        &.disappeared {
+            opacity: 0;
+        }
+    }
+
+    .disappearX {
+        &.disappeared {
+            opacity: 0;
+
+            &.left, &:not(.right) {
+                transform: translateX(-5em);
+            }
+
+            &.right {
+                transform: translateX(5em);
+            }
+        }
+    }
+
+    .disappearY {
+        &.disappeared {
+            opacity: 0;
+
+            &.up, &:not(.down) {
+                transform: translateY(-3em);
+            }
+
+            &.down {
+                transform: translateY(3em);
+            }
+        }
+    }
+}

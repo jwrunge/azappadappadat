@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lnag='en'>
+  <head>
+    <meta charset="utf-8">
+
+    <title>{{title}}</title>
+    <meta name="description" content="Everything is better with music! Full-service music for whatever you need: movies, radio, TV, advertising, and more!">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  
+  <body>
+    {{!-- <div class="wrapper"> --}}
+      <nav>
+          <h1 class="navlogo hidden">A Zappa Dappa Dat</h1>
+          <ul class='links'>
+            <li><a href="about">About</a></li>
+            <li><a href="listen">Listen</a></li>
+            <li><a href="contact">Contact</a></li>
+          </ul>
+      </nav>
+
+      <div class="mobile-menu">
+        <span class="closed shown">&#9776;</span>
+        <span class="open">&times;</span>
+      </div>
+  
+      {{{body}}}
+
+      <div class="footer">
+        <div class="angle-wrapper">
+          <div class="inner">
+            <div class="social">
+              <a target="_blank" href="https://www.facebook.com/A-Zappa-Dappa-Dat-101085974869084/" title='Facebook'><img src="images/sm-icons/facebook.svg" alt="Facebook link"></a>
+              <a target="_blank" href="https://www.youtube.com/channel/UCIcWmli0W13i8RF2dqLavQQ" title='YouTube'><img src="images/sm-icons/youtube.svg" alt="YouTube link"></a>
+              <a target="_blank" href="https://twitter.com/DappaDat" title='Twitter'><img src="images/sm-icons/twitter.svg" alt="Twitter link"></a>
+              <a target="_blank" href="https://www.instagram.com/azappadappadat" title='Instagram'><img src="images/sm-icons/instagram.svg" alt="Instagram link"></a>
+              <a target="_blank" href="https://www.linkedin.com/in/paul-hamilton-1b987a1a8" title='LinkedIn'><img src="images/sm-icons/linkedin.svg" alt="LinkedIn link"></a>
+            </div>
+            <div>
+              &copy; <span class="year">year</span> A Zappa Dappa Dat
+            </div>
+            <div>
+              <div class='top-margin-sm footer-link'>
+                <a target="_blank" href="https://bigwhitehousepublishing.com">Big White House Publishing</a>
+              </div>
+              <div class='top-margin-sm footer-link'>
+                <a target="_blank" href="https://epicrecordingstudios.com">Epic Recording Studios</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{!-- </div> --}}
+
+    <script>
+      let nav = document.querySelector('nav')
+      let triggerGroups = document.querySelectorAll('.trigger-group')
+      let headerPieces = document.querySelectorAll('.pieces')
+      let buttons = document.querySelector('.buttons')
+
+      document.querySelector(".year").innerHTML = (new Date()).getFullYear()
+
+      if(window.location.pathname != '/') nav.classList.add('scrolled')
+
+      //Set up trigger groups
+      for(let group of triggerGroups) {
+        let children = group.querySelectorAll('.trigger-child')
+        let delay = .25
+        for(let child of children) {
+          child.classList.add('disappeared')
+          child.style.transitionDelay = delay + 's'
+          delay += .25
+        }
+      }
+
+      function scroll() {
+        if(window.scrollY > 150 || window.location.pathname != '/') 
+          nav.classList.add('scrolled')
+        else if(window.scrollY < 50)
+          nav.classList.remove('scrolled')
+
+        let triggerHeight = window.innerHeight / 1.25
+
+        for(let group of triggerGroups) {
+          if(!group.classList.contains('triggered') && group.getBoundingClientRect().top < triggerHeight) {
+            group.classList.add('triggered')
+
+            let children = group.querySelectorAll('.trigger-child')
+            for(let child of children) {
+              child.classList.remove('disappeared')
+            }
+          }
+        }
+      }
+
+      window.addEventListener('scroll', scroll)
+
+      document.querySelector('.navlogo').addEventListener('click', function() {
+        if(window.location.pathname != '/') {
+          window.location.hash = '#skipintro'
+          window.location.pathname = '/'
+        }
+        else {
+          window.location.hash = "#home"
+          setTimeout(function() {
+              window.location.hash = "#skipintro"
+          }, 1500)
+        }
+      })
+
+      //Mobile menu
+      let hamburger = document.querySelector('.closed')
+      let closer = document.querySelector('.open')
+
+      hamburger.onclick = ()=> {
+        hamburger.classList.remove('shown')
+        closer.classList.add('shown')
+        nav.classList.add('shown')
+      }
+
+      closer.onclick = ()=> {
+        hamburger.classList.add('shown')
+        closer.classList.remove('shown')
+        nav.classList.remove('shown')
+      }
+    </script>
+  </body>
+</html>
